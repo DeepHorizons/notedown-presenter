@@ -18,6 +18,10 @@ class MarkdownPresenterReader(MarkdownReader):
 
     slide_type = 'slide_type'
 
+    def __init__(self, include_skip=True, *args, **kwargs):
+        self.include_skip = include_skip
+        super().__init__(*args, **kwargs)
+
     def parse_blocks(self, text):
         all_blocks = super().parse_blocks(text)
 
@@ -29,7 +33,6 @@ class MarkdownPresenterReader(MarkdownReader):
         for block in all_blocks:
             if block['type'] == 'markdown':
                 content = block['content']
-                print(f"block: `{content.encode()}`")
                 next_type = self.SlideTypes.slide
                 last_index = 0
                 last_index_check = 0
@@ -41,11 +44,12 @@ class MarkdownPresenterReader(MarkdownReader):
                     if current_skip >= 0 and current_index > current_skip:
                         # We need to evaluate the skip first
                         end_skip = content.find('-skip-', current_skip+1)
-                        current_string = content[current_skip+6:end_skip].strip()
-                        b = block.copy()
-                        b['content'] = current_string
-                        b[self.slide_type] = self.SlideTypes.skip
-                        processed_blocks.append(b)
+                        if self.include_skip:
+                            current_string = content[current_skip+6:end_skip].strip()
+                            b = block.copy()
+                            b['content'] = current_string
+                            b[self.slide_type] = self.SlideTypes.skip
+                            processed_blocks.append(b)
                         # 8 = len('-skip-\n') + 1
                         current_index = end_skip + 5
                         # Find the next non \n character

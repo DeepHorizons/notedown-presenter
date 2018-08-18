@@ -14,4 +14,5 @@ setup(
     license='BSD 2-Clause',
     url='http://github.com/aaren/notedown',
     install_requires=['notedown'],
+    scripts = ['scripts/notedown-presenter'],
 )
