@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+notedown = "*"
+notedown-presenter = {editable = true, path = "."}
+
+[dev-packages]
+jupyter = "*"
+notebook = "*"
+jupyterlab = "*"
+rise = "*"
+
+[requires]
+python_version = "3.6"
