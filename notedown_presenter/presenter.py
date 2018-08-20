@@ -215,9 +215,6 @@ class NotedownPresenterContentsManager(FileContentsManager):
         writer = writers[outformat]
 
         notebook = reader.reads(contents, as_version=4)
-        import logging
-        logging.basicConfig()
-        logging.error(notebook)
         return writer.writes(notebook)
 
     def _read_notebook(self, os_path, as_version=4):
